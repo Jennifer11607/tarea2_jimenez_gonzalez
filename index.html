@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Tarea 2</title>
+    <style>
+         body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-image: url('./pexels-blaque-x-264516-932638.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            background: #ffffff4e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 500px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-family:'Courier New', Courier, monospace
+        }
+        .input-container {
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .input-container input {
+            margin-bottom: 5px;
+            display: block;
+            width: calc(50% - 20px);
+            margin: 5px auto;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+        }
+        .input-container .error {
+            border: 2px solid red;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family:'Courier New', Courier, monospace
+        }
+        button:hover {
+            background-color: #4592a0;
+        }
+        .message {
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form id="dynamic-form">
+            <h1>Formulario Para Ingresar Datos Personales</h1>
+            <div id="input-fields">
+                <div class="input-container">
+                    <label>Nombre</label>
+                    <input type="text" name="input[]" placeholder="Ingrese nombre">
+                    <label>Segundo Nombre</label>
+                    <input type="text" name="input[]" placeholder="Ingrese nombre">
+                    <label>Apellido</label>
+                    <input type="text" name="input[]" placeholder="Ingrese apellido">
+                    <label> Segundo Apellido</label>
+                    <input type="text" name="input[]" placeholder="Ingrese apellido">
+                    <button type="button" onclick="removeInput(this)">Eliminar</button>
+                </div>
+            </div>
+            <button type="button" onclick="addInput()">Añadir</button>
+            <button type="submit">Enviar</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        function addInput() {
+            const inputFields = document.getElementById('input-fields');
+            const inputContainer = document.createElement('div');
+            inputContainer.className = 'input-container';
+            inputContainer.innerHTML = `
+                <label>Nombre</label>
+                <input type="text" name="input[]" placeholder="Ingrese nombre">
+                <label>Nombre 2</label>
+                <input type="text" name="input[]" placeholder="Ingrese nombre">
+                <label>Apellido</label>
+                <input type="text" name="input[]" placeholder="Ingrese apellido">
+                <label>Segundo Apellido</label>
+                <input type="text" name="input[]" placeholder="Ingrese apellido">
+                <button type="button" onclick="removeInput(this)">Eliminar</button>
+            `;
+            inputFields.appendChild(inputContainer);
+        }
+
+        function removeInput(button) {
+            const inputContainer = button.parentNode;
+            inputContainer.remove();
+        }
+
+        document.getElementById('dynamic-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita el envío del formulario
+
+            const inputs = document.querySelectorAll('#input-fields input');
+            let allFilled = true;
+
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    input.classList.add('error');
+                    input.focus();
+                    allFilled = false;
+                } else {
+                    input.classList.remove('error');
+                }
+            });
+
+            if (allFilled) {
+                document.getElementById('message').innerText = 'Enviado exitosamente';
+            } else {
+                document.getElementById('message').innerText = 'Por favor, debe completar todos los campos vacios';
+            }
+        });
+    </script>
+</body>
+</html>
